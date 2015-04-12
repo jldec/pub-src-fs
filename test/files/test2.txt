@@ -1,0 +1,14 @@
+----
+booger:a
+----
+test-write
+=========
+
+    with some -->  ⌘ <---
+----
+booger:b
+----
+test-write
+=========
+
+    with some -->  ⌘ <---

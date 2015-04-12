@@ -1,0 +1,31 @@
+{
+  "name": "pub-src-fs",
+  "version": "0.5.0",
+  "description": "Default file system source for pub-server and pub-generator",
+  "main": "pub-src-fs.js",
+  "license": "MIT",
+  "dependencies": {
+    "graceful-fs": "*",
+    "minimatch": "*",
+    "mkdirp": "*",
+    "queue3": "*",
+    "asyncbuilder": "*",
+    "pub-util": "*",
+    "debug": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "rmdir": "*",
+    "deep-diff": "*",
+    "should": "*"
+  },
+  "scripts": {
+    "test": "mocha --ui qunit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/jldec/pub-src-fs.git"
+  },
+  "author": "jurgen leschner",
+  "license": "MIT"
+}
