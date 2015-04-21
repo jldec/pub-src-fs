@@ -13,6 +13,7 @@ module.exports = function sourceFs(sourceOpts) {
   var fsbase = require('./fs-base')(sourceOpts);
 
   return {
+    watchable: true,
     get: get,
     put: put
   };
