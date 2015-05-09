@@ -44,12 +44,13 @@ module.exports = function fsbase(sourceOpts) {
 
   // max recursion depth
   self.depth = self.depth ||
-    (self.mm && /(^|\/)\*\*\//.test(mmPat) ? 20 : mmPat.split('/').length);
+    (self.mm && /(^|\/)\*\*\//.test(mmPat) ? 5 : mmPat.split('/').length);
 
   self.timeout     = self.timeout     || 5000;
   self.concurrency = self.concurrency || 10;
 
   self.readdir     = self.readdir     || fsReaddir;   // recursive directory walk with minimatch - only files
+  self.dirsFirst   = self.dirsFirst   || false;       // default is files first
 
   self.readfile    = self.readfile    || fs.readFile; // single file read
   self.writefile   = self.writefile   || writeFileAtomic; // single file write with built-in mkdirp and tmp/rename
@@ -188,7 +189,11 @@ module.exports = function fsbase(sourceOpts) {
     function treewalk(path, prefix, depth, cb) {
       self.readdir(path, function(err, list) { if (err) return cb(err);
         var ab = asyncbuilder(cb);
-        u.each(u.sortBy(list, 'name'), function(entry) {
+        var sortTypes = self.dirsFirst ? { 'dir':'1', 'file':'2' } :  { 'dir':'2', 'file':'1' };
+        var sorted = u.sortBy(list, function(entry) {
+          return sortTypes[entry.type] + entry.name;
+        });
+        u.each(sorted, function(entry) {
           var pathname = u.join(path, entry.name);
           var pname = u.join(prefix, entry.name);
           if (entry.name.match(self.exclude)) return; // exclude files or directories starting with .

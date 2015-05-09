@@ -37,6 +37,8 @@ source.get(function(err, files) {
 - `depth` limits the depth of tree traversal when there is globstar
 - this is useful for avoiding symlink cycles and improving performance
 
+### source.dirsFirst
+- if `dirsFirst` is true, entries within each directory will be returned with directories before files instead of the default (files first)
 
 ### source.get(cb)
 - `get()` fetches all matching files in one async operation

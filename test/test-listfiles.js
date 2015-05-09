@@ -24,19 +24,19 @@ test("read directory tree including empty directory and maxdepth", function(done
   var fsbase = FsBase(opts);
 
   var expected = [
-    "/1/9.txt",
-    "/1.txt",
-    "/2/10.txt/11.txt",
-    "/2/10.txt/12.txt",
-    "/2/10.txt/13/14.txt",
-    "/2/10.txt/13/level-4/not-ignored.txt",
-    "/2.txt",
-    "/3.txt",
-    "/4.txt",
-    "/5.txt",
-    "/f1/6.txt",
-    "/f1/7.txt",
-    "/f2/8.txt"
+    '/1.txt',
+    '/2.txt',
+    '/3.txt',
+    '/4.txt',
+    '/5.txt',
+    '/1/9.txt',
+    '/2/10.txt/11.txt',
+    '/2/10.txt/12.txt',
+    '/2/10.txt/13/14.txt',
+    '/2/10.txt/13/level-4/not-ignored.txt',
+    '/f1/6.txt',
+    '/f1/7.txt',
+    '/f2/8.txt'
   ];
 
   mkdirp(opts.path + '/empty', function(err) {
