@@ -16,6 +16,7 @@ var path = require('path');
 var asyncbuilder = require('asyncbuilder');
 var Queue = require('queue3');
 var mkdirp = require('mkdirp');
+var normalize = require('unorm').nfc;
 
 module.exports = function fsbase(sourceOpts) {
 
@@ -49,8 +50,9 @@ module.exports = function fsbase(sourceOpts) {
   self.timeout     = self.timeout     || 5000;
   self.concurrency = self.concurrency || 10;
 
+  self.sortEntry   = self.sortEntry   || require('./sort-entry')(self);
+
   self.readdir     = self.readdir     || fsReaddir;   // recursive directory walk with minimatch - only files
-  self.dirsFirst   = self.dirsFirst   || false;       // default is files first
 
   self.readfile    = self.readfile    || fs.readFile; // single file read
   self.writefile   = self.writefile   || writeFileAtomic; // single file write with built-in mkdirp and tmp/rename
@@ -187,13 +189,16 @@ module.exports = function fsbase(sourceOpts) {
     // walks directory tree starting in path - uses asyncbuilder to preserve name-based ordering
     // returns cb(err,tree) where tree[] = array of names (for files) or arrays (for directories)
     function treewalk(path, prefix, depth, cb) {
+
+      function sort(entry) { return self.sortEntry(entry.name, entry.type); }
+
       self.readdir(path, function(err, list) { if (err) return cb(err);
         var ab = asyncbuilder(cb);
-        var sortTypes = self.dirsFirst ? { 'dir':'1', 'file':'2' } :  { 'dir':'2', 'file':'1' };
-        var sorted = u.sortBy(list, function(entry) {
-          return sortTypes[entry.type] + entry.name;
-        });
-        u.each(sorted, function(entry) {
+
+        // first normalize names to fix decomposed unicode e.g. from OSX-HFS
+        u.each(list, function(entry) { entry.name = normalize(entry.name); });
+
+        u.each(u.sortBy(list, sort), function(entry) {
           var pathname = u.join(path, entry.name);
           var pname = u.join(prefix, entry.name);
           if (entry.name.match(self.exclude)) return; // exclude files or directories starting with .
@@ -204,9 +209,11 @@ module.exports = function fsbase(sourceOpts) {
           if (self.mm && !self.mm.match(pname.slice(1))) return; // failed minimatch glob test
           if (entry.type === 'file') return ab.append(pname);
         });
+
         ab.complete();
       });
     }
+
   }
 
   // fs fsReaddir
@@ -225,6 +232,7 @@ module.exports = function fsbase(sourceOpts) {
       ab.complete();
     });
   }
+
 
   function isfile(path) {
     try { return fs.statSync(path).isFile(); }
