@@ -4,11 +4,7 @@
  *
 **/
 
-suite('pub-src-fs test-get');
-var deepdiff = require('deep-diff');
-var u = require('pub-util');
-
-var assert = require('assert')
+var test = require('tape')
 
 var expected = [
   { path: '/index.md',
@@ -21,24 +17,13 @@ var expected = [
     text:'----\npage: /page3\n\n----\n# page3\nhas 2 additional fragments and some detached fragments\n\n----\nfragment:/page3#fragment-1\n\n----\n# fragment 1\n\n----\nfragment:/pagex#orphan-fragment-1\n\n----\norphan\n\n----\nfragment:/page1#in-page3\n\n----\n\n----\nfragment:/page3#fragment-2\n\n----' }
 ];
 
-test('read md directory tree', function(done) {
+test('read md directory tree', function(t) {
 
   var source = require('..')( { path:__dirname + '/md' } );
 
   source.get(function(err, files) {
-    if (err) return done(err);
-    assertNoDiff(files, expected);
-    done();
+    t.same(files, expected);
+    t.end(err);
   });
 
 });
-
-function assertNoDiff(actual, expected, msg) {
-  var diff = deepdiff(actual, expected);
-  var maxdiff = 5;
-  if (diff) {
-    assert(false, 'deepDiff ' + (msg || '') + '\n'
-      + u.inspect(diff.slice(0,maxdiff), {depth:3})
-      + (diff.length > maxdiff ? '\n...(truncated)' : ''));
-  }
-}

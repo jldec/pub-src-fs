@@ -95,8 +95,9 @@ module.exports = function fsbase(sourceOpts) {
         if (err) return allDone(err);
         var ab = asyncbuilder(allDone);
 
-        list.forEach(function(filepath) {
+        list.forEach(function(entry) {
           var append = ab.asyncAppend();
+          var filepath = entry.filepath;
           var fullpath = u.join(self.path, filepath);
 
           readQ.push(function(readDone) {
@@ -142,6 +143,7 @@ module.exports = function fsbase(sourceOpts) {
     });
   }
 
+
   // for atomicity, first write to tmp, then rename
   // unlike readfile, this function takes a relative filepath
   // hmm... could be adapted to do versioning
@@ -174,8 +176,10 @@ module.exports = function fsbase(sourceOpts) {
 
 
   // listfiles
-  // returns depth-first sorted array of filepaths (no directories) matching glob starting at path
+  // returns depth-first sorted array of {filepath, hash} (no directories)
+  // matching glob starting at path
   // returned filepaths do not include path
+  // hash may be null if readdir does not provide hash in metadata
   // calls self.readdir(path, cb) which can be overridden
   // readdir must return array of {name:, type:} only type:"file" or "dir" are recognized
   function listfiles(cb) {
@@ -207,7 +211,11 @@ module.exports = function fsbase(sourceOpts) {
             return treewalk(pathname, pname, depth + 1, ab.asyncAppend()); // recurse
           }
           if (self.mm && !self.mm.match(pname.slice(1))) return; // failed minimatch glob test
-          if (entry.type === 'file') return ab.append(pname);
+          if (entry.type === 'file') {
+            var listEntry = { filepath:pname };
+            if (entry.hash) { listEntry.hash = entry.hash; }
+            return ab.append(listEntry);
+          }
         });
 
         ab.complete();
@@ -241,9 +249,7 @@ module.exports = function fsbase(sourceOpts) {
 
   function listfile(cb) {
     process.nextTick(function() {
-      cb(null, [ self.file ]);
+      cb(null, [{ filepath:self.file }] );
     });
   }
 }
-
-
