@@ -1,8 +1,7 @@
 /* sortEntry(opts) returns fn(name, [type]) -> sortname
- * function for sorting source files with u.sortBy()
+ * function returns munged name, for sorting file/path names with u.sortBy()
  * currently used by src-redis and src-fs
  * handles both simple filenames (src-fs) and full paths (src-redis)
- * munges names/paths so that single sort will produce desired outcome
  * assumes that names/paths are already normalized (no decomposed unicode)
  *
  * opts.sortCase - default false (case-insensitive)
