@@ -25,7 +25,8 @@ module.exports = function fsbase(sourceOpts) {
 
   var self = u.clone(sourceOpts); // avoid side effects
 
-  self.exclude     = self.exclude     || /^\./;   // exclude names (including directories) beginning with '.'
+  // exclude names (including directories) beginning with '.'
+  self.exclude = self.exclude || /^\.|^node_modules$/;
 
   // minimatch defaults
   var mmPat = '**/*';
