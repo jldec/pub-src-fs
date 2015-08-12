@@ -4,6 +4,7 @@
  * provides functions for descending (globbing) directory trees and reading/writing files
  * specializeable e.g. by replacing readdir and readfile through sourceOpts
  * assumes that all files are utf-8 text
+ * files with binary-extensions are automatically excluded by listfiles()
  * used by pub-src-fs, pub-src-github, and pub-server/serve-static
  *
  * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
@@ -18,6 +19,8 @@ var Queue = require('queue3');
 var mkdirp = require('mkdirp');
 var normalize = require('unorm').nfc;
 
+var reBinary = new RegExp('\\.(' + require('binary-extensions').join('|') + ')$',"i");
+
 module.exports = function fsbase(sourceOpts) {
 
   if (typeof sourceOpts === 'string') { sourceOpts = { path:sourceOpts }; }
@@ -25,8 +28,12 @@ module.exports = function fsbase(sourceOpts) {
 
   var self = u.clone(sourceOpts); // avoid side effects
 
-  // exclude names (including directories) beginning with '.'
-  self.exclude = self.exclude || /^\.|^node_modules$/;
+  self.exclude = self.exclude || function exclude(entry) {
+    // exclude node_modules and names (including directories) beginning with '.'
+    return /^\.|^node_modules$/.test(entry.name) ||
+      // also exclude files with binary extensions unless includeBinaries is set
+      (self.includeBinaries ? false : reBinary.test(entry.name));
+  };
 
   // minimatch defaults
   var mmPat = '**/*';
@@ -206,7 +213,7 @@ module.exports = function fsbase(sourceOpts) {
         u.each(u.sortBy(list, sort), function(entry) {
           var pathname = u.join(path, entry.name);
           var pname = u.join(prefix, entry.name);
-          if (entry.name.match(self.exclude)) return; // exclude files or directories starting with .
+          if (self.exclude(entry)) return;
           if (entry.type === 'dir') {
             if (depth >= self.depth) return;
             return treewalk(pathname, pname, depth + 1, ab.asyncAppend()); // recurse
