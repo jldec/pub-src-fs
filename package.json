@@ -1,6 +1,6 @@
 {
   "name": "pub-src-fs",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Default file system source for pub-server and pub-generator",
   "main": "pub-src-fs.js",
   "dependencies": {

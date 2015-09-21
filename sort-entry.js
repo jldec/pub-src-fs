@@ -20,7 +20,7 @@ module.exports = function(opts) {
   var noCase = !opts.sortCase;
   var noAccents = !opts.sortAccents;
 
-  var indexFile = 'indexFile' in opts ? opts.indexFile : 'index'
+  var indexFile = 'indexFile' in opts ? opts.indexFile : 'index';
 
   // replace /index.extension with /
   var indexFileRe = new RegExp(
@@ -29,9 +29,8 @@ module.exports = function(opts) {
       '(\\.[^\\.\\/]*$|$)');
 
   // names without paths: type is passed in, add prefix to sort dirsFirst/Last
-  var sortTypes = opts.dirsFirst ?
-      { 'dir':'1', 'file':'2' } :
-      { 'dir':'2', 'file':'1' };
+  var sortTypes = opts.sortTypes ||
+    (opts.dirsFirst ? { 'dir':'1', 'file':'2' } : { 'dir':'2', 'file':'1' });
 
   // names with paths, replace rightmost / to sort dirsFirst/Last
   var baseDirRe = /\/([^\/]*)$/;
