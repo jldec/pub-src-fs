@@ -102,7 +102,6 @@ module.exports = function fsbase(sourceOpts) {
       self.listfiles(function(err, list) {
         if (err) return allDone(err);
         var ab = asyncbuilder(allDone);
-
         list.forEach(function(entry) {
           var append = ab.asyncAppend();
           var filepath = entry.filepath;
@@ -194,7 +193,7 @@ module.exports = function fsbase(sourceOpts) {
 
     treewalk(self.path, '/', 1, function(err, tree) {
       if (err) return cb(err);
-      cb(null, u.flatten(tree));
+      cb(null, u.flatten(tree, true));
     });
 
     // async recursive treewalk

@@ -41,7 +41,7 @@ module.exports = function(opts) {
     if (noCase) { name = name.toLowerCase(); }
     if (noAccents) { name = decompose(name); }
 
-    var out = (type ? sortTypes[type] : '') +
+    var out = (type ? (sortTypes[type] || '') : '') +
       name.replace(indexFileRe, '$1\n$2')   // sort index files by extension
           .replace(baseDirRe, baseDirMark + '$1'); // directories First/Last
 
