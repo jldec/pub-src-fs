@@ -42,7 +42,7 @@ module.exports = function fsbase(sourceOpts) {
   if (self.glob) {
     if (typeof self.glob === 'object') {
       mmPat = self.glob.pattern || mmPat;
-      mmOpts = u.merge(mmOpts, u.omit(self.glob, 'pattern'));
+      mmOpts = u.merge({}, mmOpts, u.omit(self.glob, 'pattern'));
     }
     else {
       mmPat = self.glob;
