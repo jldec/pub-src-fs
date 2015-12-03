@@ -31,12 +31,12 @@ test("FS read, write and read back ./files", function(t) {
   });
 });
 
-test("FS read, write and read back ./tree", function(t) {
+test("FS read, write and read back ./tree with binaries", function(t) {
 
-  var reader = fsbase( { path:__dirname + '/tree',       glob:'**/*.txt', depth:4 } );
+  var reader = fsbase( { path:__dirname + '/tree',       glob:'**/*.*', includeBinaries:true, depth:4 } );
 
-  var writer = fsbase( { path:__dirname + '/testwrite2', glob:'**/*.txt', depth:4,
-                          tmp:__dirname + '/tmp',        writable:true            } );
+  var writer = fsbase( { path:__dirname + '/testwrite2', glob:'**/*.*', includeBinaries:true, depth:4,
+                          tmp:__dirname + '/tmp',        writable:true } );
 
   reader.readfiles(function(err, files) {
     t.error(err);

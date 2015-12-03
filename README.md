@@ -4,7 +4,7 @@ Default file system source for pub-server and pub-generator
 
 * provides `get()` and `put()` for bulk reads and writes
 * globs and descends directories
-* assumes that all files are utf-8 text
+* assumes that all files with non-binary extensions are utf-8 text
 
 ## src(options)
 
@@ -37,12 +37,18 @@ source.get(function(err, files) {
 - `depth` limits the depth of tree traversal when there is globstar
 - this is useful for avoiding symlink cycles and improving performance
 
+### source.writable
+- required true for successful .put()
+
+### source.writeOnly
+- disables reading with .get()
+
 ### source.dirsFirst
 - if `dirsFirst` is true, entries within each directory will be returned with directories before files instead of the default (files first)
 
 ### source.get(cb)
 - `get()` fetches all matching files in one async operation
-- the result is an array of file objects each with a `path:` and a `text:` property
+- the result is an array of file objects each with a `path:` and a `text:` property (for non-binary files), or a `buffer:` property (for binary files)
 - the array is sorted alphabetically by path
 - results do not include directories, but do include files in subdirectories
 - if the source is writable, `get()` is atomic with respect to `put()` or other `source.get()` operations
@@ -68,4 +74,3 @@ source.put(files, function(err, result) {
   console.log(result);
 });
 ```
-

@@ -22,6 +22,7 @@ test("read directory tree including empty directory and maxdepth", function(t){
   var fsbase = FsBase(opts);
 
   var expected = [
+    '/-foo.txt',
     '/1.txt',
     '/2.txt',
     '/3.txt',

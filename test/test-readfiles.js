@@ -4,7 +4,8 @@
  *
 **/
 
-var test = require('tape')
+var test = require('tape');
+var fs = require('fs');
 
 var expected =
 [ { path: '/index.md',  text: '# root page\n- hello world\n\n## heading2\n\npara\n\n----\n----\n## fragment 1' },
@@ -48,6 +49,37 @@ test("readfiles with no result", function(t){
 
   fsbase.readfiles(function(err, actual){
     t.same(actual, []);
+    t.end(err);
+  });
+
+});
+
+var expected2 =
+[ { path: '/-foo.txt', text: 'file some -->  ⌘ <---' },
+  { path: '/1.txt', text: '' },
+  { path: '/2.txt', text: '' },
+  { path: '/3.txt', text: '' },
+  { path: '/4.txt', text: '' },
+  { path: '/5.txt', text: '' },
+  { path: '/ignored.md', text: 'this file should not be included in listfies' },
+  { path: '/1/9.txt', text: '' },
+  { path: '/2/4m.png', buffer: fs.readFileSync(__dirname + '/tree/2/4m.png') },
+  { path: '/2/6k.png', buffer: fs.readFileSync(__dirname + '/tree/2/6k.png') },
+  { path: '/2/10.txt/11.txt', text: 'boogerü\n' },
+  { path: '/2/10.txt/12.txt', text: '' },
+  { path: '/2/10.txt/13/14.txt', text: '' },
+  { path: '/2/10.txt/13/level-4/not-ignored.txt', text: '' },
+  { path: '/f1/6.txt', text: '' },
+  { path: '/f1/7.txt', text: '' },
+  { path: '/f2/8.txt', text: '' } ];
+
+
+test("read tree with binaries", function(t){
+
+  var fsbase = require('../fs-base')( { path:__dirname + '/tree', glob:'**/*.*', includeBinaries:true } );
+
+  fsbase.readfiles(function(err, actual){
+    t.same(actual, expected2);
     t.end(err);
   });
 

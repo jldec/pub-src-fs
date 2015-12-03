@@ -91,6 +91,7 @@ module.exports = function fsbase(sourceOpts) {
 
   function readfiles(options, cb) {
     if (typeof options === 'function') { cb = options; options = {}; }
+    if (self.writeOnly) return process.nextTick(function() { cb(null, []); });
 
     // instance-level queue serializes readfiles and writefiles (if writable)
     self.queue.push(function(next) {
@@ -101,20 +102,29 @@ module.exports = function fsbase(sourceOpts) {
 
       self.listfiles(function(err, list) {
         if (err) return allDone(err);
+
         var ab = asyncbuilder(allDone);
         list.forEach(function(entry) {
           var append = ab.asyncAppend();
           var filepath = entry.filepath;
           var fullpath = u.join(self.path, filepath);
+          var file = { path:filepath };
+          var enc = reBinary.test(filepath) ? null : 'utf8';
 
           readQ.push(function(readDone) {
-
-            // assumes all text files
-            self.readfile(fullpath, {encoding:'utf8'}, function(err, text) {
-              append(err, { path:filepath, text:text });
+            if (entry.sha && self.readfileBySha) {
+              self.readfileBySha(entry.sha, processData);
+            }
+            else {
+              self.readfile(fullpath, processData);
+            }
+            // populate file.text or, for binary files, file.buffer
+            function processData(err, data) {
+              if (enc) { file.text = data.toString(enc); } else { file.buffer = data; }
+              if (entry.sha) { file.sha = entry.sha; }
+              append(err, file);
               readDone();
-            });
-
+            }
           });
         });
         ab.complete();
@@ -138,7 +148,7 @@ module.exports = function fsbase(sourceOpts) {
         writeQ.push(function(writeDone) {
 
           // self.writefile defaults to writeFileAtomic()
-          self.writefile(file.path, file.text, function(err) {
+          self.writefile(file.path, ('text' in file ? file.text : file.buffer), function(err) {
             append(err, file.path);
             writeDone();
           });
@@ -151,11 +161,13 @@ module.exports = function fsbase(sourceOpts) {
   }
 
 
-  // for atomicity, first write to tmp, then rename
-  // unlike readfile, this function takes a relative filepath
-  // hmm... could be adapted to do versioning
+  // atomic file write
+  // first writes to tmp, then renames
+  // data = string or buffer
+  // NOTE unlike readfile, this function takes a relative filepath
+  //      hmm... could be adapted to do versioning
   // TODO hoover tmp
-  function writeFileAtomic(filepath, text, cb) {
+  function writeFileAtomic(filepath, data, cb) {
 
     var fullpath = u.join(self.path, filepath);
     var dir = path.dirname(fullpath)
@@ -169,7 +181,7 @@ module.exports = function fsbase(sourceOpts) {
       mkdirp(dir, function(err) {
         if (err) return cb(err);
 
-        fs.writeFile(tmppath, text, function(err) {
+        fs.writeFile(tmppath, data, function(err) {
           if (err) return cb(err);
 
           fs.rename(tmppath, fullpath, function(err) {
@@ -183,7 +195,7 @@ module.exports = function fsbase(sourceOpts) {
 
 
   // listfiles
-  // returns depth-first sorted array of {filepath, hash} (no directories)
+  // returns depth-first sorted array of {filepath, hash, sha} (no directories)
   // matching glob starting at path
   // returned filepaths do not include path
   // hash may be null if readdir does not provide hash in metadata
@@ -220,6 +232,7 @@ module.exports = function fsbase(sourceOpts) {
           if (self.mm && !self.mm.match(pname.slice(1))) return; // failed minimatch glob test
           if (entry.type === 'file') {
             var listEntry = { filepath:pname };
+            if (entry.sha) { listEntry.sha = entry.sha; }
             if (entry.hash) { listEntry.hash = entry.hash; }
             return ab.append(listEntry);
           }
