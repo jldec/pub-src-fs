@@ -205,7 +205,7 @@ module.exports = function fsbase(sourceOpts) {
 
     treewalk(self.path, '/', 1, function(err, tree) {
       if (err) return cb(err);
-      cb(null, u.flatten(tree, true));
+      cb(null, u.flattenDeep(tree));
     });
 
     // async recursive treewalk
