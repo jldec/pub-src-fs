@@ -10,16 +10,15 @@
  * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
 **/
 
-var debug = require('debug')('pub:src-fs');
 var fs = require('graceful-fs');
 var u = require('pub-util');
 var path = require('path');
 var asyncbuilder = require('asyncbuilder');
-var Queue = require('queue3');
+var Queue = require('queue4');
 var mkdirp = require('mkdirp');
 var normalize = require('unorm').nfc;
 
-var reBinary = new RegExp('\\.(' + require('binary-extensions').join('|') + ')$',"i");
+var reBinary = new RegExp('\\.(' + require('binary-extensions').join('|') + ')$','i');
 
 module.exports = function fsbase(sourceOpts) {
 
@@ -143,7 +142,7 @@ module.exports = function fsbase(sourceOpts) {
       var ab = asyncbuilder(function(err, result) { next(); cb(err, result); });
       var writeQ = new Queue( { concurrency: self.concurrency, timeout: self.timeout } );
 
-      files.forEach(function(file, idx) {
+      files.forEach(function(file) {
         var append = ab.asyncAppend();
         writeQ.push(function(writeDone) {
 
@@ -170,10 +169,10 @@ module.exports = function fsbase(sourceOpts) {
   function writeFileAtomic(filepath, data, cb) {
 
     var fullpath = u.join(self.path, filepath);
-    var dir = path.dirname(fullpath)
+    var dir = path.dirname(fullpath);
 
     var tmppath = u.join(self.tmp, filepath);
-    var tmpdir = path.dirname(tmppath)
+    var tmpdir = path.dirname(tmppath);
 
     mkdirp(tmpdir, function(err) {
       if (err) return cb(err);
@@ -272,4 +271,4 @@ module.exports = function fsbase(sourceOpts) {
       cb(null, [{ filepath:self.file }] );
     });
   }
-}
+};

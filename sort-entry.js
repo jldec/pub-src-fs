@@ -12,6 +12,8 @@
  * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
  */
 
+/*eslint indent: ["off"]*/
+
 var u = require('pub-util');
 var decompose = require('unorm').nfd;
 
@@ -33,7 +35,7 @@ module.exports = function(opts) {
     (opts.dirsFirst ? { 'dir':'1', 'file':'2' } : { 'dir':'2', 'file':'1' });
 
   // names with paths, replace rightmost / to sort dirsFirst/Last
-  var baseDirRe = /\/([^\/]*)$/;
+  var baseDirRe = /\/([^/]*)$/;
   var baseDirMark = opts.dirsFirst ? '\uFFFF' : '\t';
 
   function sortEntry(name, type) {
@@ -46,7 +48,7 @@ module.exports = function(opts) {
           .replace(baseDirRe, baseDirMark + '$1'); // directories First/Last
 
     return out;
-  };
+  }
 
   return sortEntry;
-}
+};

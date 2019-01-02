@@ -21,7 +21,7 @@ var expected =
 ];
 
 
-test("read md directory tree", function(t){
+test('read md directory tree', function(t){
 
   var fsbase = require('../fs-base')( { path:__dirname + '/md', glob:'**/*.md' } );
 
@@ -32,7 +32,7 @@ test("read md directory tree", function(t){
 
 });
 
-test("read single file", function(t){
+test('read single file', function(t){
 
   var fsbase = require('../fs-base')( { path:__dirname + '/md/page1.md' } );
 
@@ -43,7 +43,7 @@ test("read single file", function(t){
 
 });
 
-test("readfiles with no result", function(t){
+test('readfiles with no result', function(t){
 
   var fsbase = require('../fs-base')( { path:__dirname + '/tree', glob:'**/*.booger' } );
 
@@ -74,7 +74,7 @@ var expected2 =
   { path: '/f2/8.txt', text: '' } ];
 
 
-test("read tree with binaries", function(t){
+test('read tree with binaries', function(t){
 
   var fsbase = require('../fs-base')( { path:__dirname + '/tree', glob:'**/*.*', includeBinaries:true } );
 

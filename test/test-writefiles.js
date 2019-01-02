@@ -4,15 +4,15 @@
  *
 **/
 
-var test = require('tape')
+/*eslint indent: ["off"]*/
 
-var fs = require('fs');
+var test = require('tape');
+
 var rmdir = require('rmdir');
 var fsbase = require('../fs-base');
-var u = require('pub-util');
 
 
-test("FS read, write and read back ./files", function(t) {
+test('FS read, write and read back ./files', function(t) {
 
   var reader = fsbase( { path:__dirname + '/files', glob:'**/*.txt' } );
   var writer = fsbase( { path:__dirname + '/testwrite', writable:true, tmp:__dirname + '/tmp' } );
@@ -31,7 +31,7 @@ test("FS read, write and read back ./files", function(t) {
   });
 });
 
-test("FS read, write and read back ./tree with binaries", function(t) {
+test('FS read, write and read back ./tree with binaries', function(t) {
 
   var reader = fsbase( { path:__dirname + '/tree',       glob:'**/*.*', includeBinaries:true, depth:4 } );
 

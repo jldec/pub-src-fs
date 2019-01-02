@@ -4,7 +4,7 @@
  *
 **/
 
-var test = require('tape')
+var test = require('tape');
 
 var expected = [
   { path: '/index.md',

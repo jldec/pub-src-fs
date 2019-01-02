@@ -1,4 +1,5 @@
 # pub-src-fs
+[![Build Status](https://api.travis-ci.org/jldec/pub-src-fs.svg?branch=master)](https://travis-ci.org/jldec/pub-src-fs)
 
 Default file system source for pub-server and pub-generator
 

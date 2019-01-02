@@ -4,19 +4,18 @@
  *
 **/
 
-var test = require('tape')
+var test = require('tape');
 
-var mkdirp = require('mkdirp');
 var FsBase = require('../fs-base');
 var u = require('pub-util');
 
-test("list-files with no opts", function(t){
+test('list-files with no opts', function(t){
   t.throws(function() { FsBase(); });
   t.throws(function() { FsBase({}); });
   t.end();
 });
 
-test("read directory tree including empty directory and maxdepth", function(t){
+test('read directory tree including empty directory and maxdepth', function(t){
 
   var opts = { path:__dirname + '/tree', glob:'**/*.txt', depth:5 };
   var fsbase = FsBase(opts);
@@ -46,7 +45,7 @@ test("read directory tree including empty directory and maxdepth", function(t){
 });
 
 
-test("sorted list, default options", function(t){
+test('sorted list, default options', function(t){
 
   var opts = { path:__dirname + '/sortme', depth:5 };
   var fsbase = FsBase(opts);
@@ -84,7 +83,7 @@ test("sorted list, default options", function(t){
 });
 
 
-test("sorted list, dirsFirst option", function(t){
+test('sorted list, dirsFirst option', function(t){
 
   var opts = { path:__dirname + '/sortme', depth:5, dirsFirst:1 };
   var fsbase = FsBase(opts);
@@ -122,7 +121,7 @@ test("sorted list, dirsFirst option", function(t){
 });
 
 
-test("sorted list, sortCase option", function(t){
+test('sorted list, sortCase option', function(t){
 
   var opts = { path:__dirname + '/sortme', depth:5, sortCase:1 };
   var fsbase = FsBase(opts);
@@ -160,7 +159,7 @@ test("sorted list, sortCase option", function(t){
 });
 
 
-test("sorted list, sortAccents option", function(t){
+test('sorted list, sortAccents option', function(t){
 
   var opts = { path:__dirname + '/sortme', depth:5, sortAccents:1 };
   var fsbase = FsBase(opts);
@@ -198,7 +197,7 @@ test("sorted list, sortAccents option", function(t){
 });
 
 
-test("sorted list, blank indexFile option", function(t){
+test('sorted list, blank indexFile option', function(t){
 
   var opts = { path:__dirname + '/sortme', depth:5, indexFile:'' };
   var fsbase = FsBase(opts);
@@ -236,12 +235,12 @@ test("sorted list, blank indexFile option", function(t){
 });
 
 
-test("list single file", function(t){
+test('list single file', function(t){
 
   var opts = { path:__dirname + '/tree/2.txt' };
   var fsbase = FsBase(opts);
 
-  var expected = [ "/2.txt" ];
+  var expected = [ '/2.txt' ];
 
   fsbase.listfiles(function(err, actual){
     t.same(filepathlist(actual), expected);
@@ -249,12 +248,12 @@ test("list single file", function(t){
   });
 });
 
-test("list single dot-file", function(t){
+test('list single dot-file', function(t){
 
   var opts = { path:__dirname + '/tree/.ignored' };
   var fsbase = FsBase(opts);
 
-  var expected = [ "/.ignored" ];
+  var expected = [ '/.ignored' ];
 
   fsbase.listfiles(function(err, actual){
     t.same(filepathlist(actual), expected);
