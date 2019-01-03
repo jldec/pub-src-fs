@@ -7,7 +7,7 @@
  * files with binary-extensions are automatically excluded by listfiles()
  * used by pub-src-fs, pub-src-github, and pub-server/serve-static
  *
- * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
 **/
 
 var fs = require('graceful-fs');

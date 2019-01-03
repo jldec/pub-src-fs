@@ -1,6 +1,6 @@
 /**
  * pub-src-fs test-readfiles
- * copyright 2015, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
  *
 **/
 
