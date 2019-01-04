@@ -1,6 +1,6 @@
 {
   "name": "pub-src-fs",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "Default file system source for pub-server and pub-generator",
   "main": "pub-src-fs.js",
   "dependencies": {
@@ -10,7 +10,7 @@
     "graceful-fs": "^4.1.15",
     "minimatch": "^3.0.4",
     "mkdirp": "^0.5.1",
-    "pub-util": "^3.0.1",
+    "pub-util": "^3.0.2",
     "queue4": "^1.0.4",
     "unorm": "^1.4.1"
   },
