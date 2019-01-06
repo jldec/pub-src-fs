@@ -212,7 +212,7 @@ module.exports = function fsbase(sourceOpts) {
     // returns cb(err,tree) where tree[] = array of names (for files) or arrays (for directories)
     function treewalk(path, prefix, depth, cb) {
 
-      function sort(entry) { return self.sortEntry(entry.name, entry.type); }
+      function sort(entry) { return self.sortEntry(entry.name + (entry.type === 'dir' ? '/' : '')); }
 
       self.readdir(path, function(err, list) { if (err) return cb(err);
         var ab = asyncbuilder(cb);

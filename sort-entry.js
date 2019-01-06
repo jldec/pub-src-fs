@@ -1,7 +1,8 @@
-/* sortEntry(opts) returns fn(name, [type]) -> sortname
- * function returns munged name, for sorting file/path names with u.sortBy()
+/* sortEntry(opts) returns fn(name) -> sortname
+ * returns munged name, for sorting file/path names with u.sortBy()
  * currently used by src-redis and src-fs
- * handles both simple filenames (src-fs) and full paths (src-redis)
+ * handles both simple file/directory names (src-fs) and full paths (src-redis)
+ * enables dirsFirst true/false by prefixing all names or pathname segments
  * assumes that names/paths are already normalized (no decomposed unicode)
  *
  * opts.sortCase - default false (case-insensitive)
@@ -18,6 +19,7 @@ var u = require('pub-util');
 var decompose = require('unorm').nfd;
 
 module.exports = function(opts) {
+  opts = opts || {};
 
   var noCase = !opts.sortCase;
   var noAccents = !opts.sortAccents;
@@ -31,23 +33,24 @@ module.exports = function(opts) {
       '(\\.[^\\.\\/]*$|$)');
 
   // names without paths: type is passed in, add prefix to sort dirsFirst/Last
-  var sortTypes = opts.sortTypes ||
-    (opts.dirsFirst ? { 'dir':'1', 'file':'2' } : { 'dir':'2', 'file':'1' });
+  var filePrefix = opts.dirsFirst ? '2' : '1';
+  var dirPrefix  = opts.dirsFirst ? '1' : '2';
 
-  // names with paths, replace rightmost / to sort dirsFirst/Last
-  var baseDirRe = /\/([^/]*)$/;
-  var baseDirMark = opts.dirsFirst ? '\uFFFF' : '\t';
-
-  function sortEntry(name, type) {
+  function sortEntry(name) {
 
     if (noCase) { name = name.toLowerCase(); }
     if (noAccents) { name = decompose(name); }
 
-    var out = (type ? (sortTypes[type] || '') : '') +
-      name.replace(indexFileRe, '$1\n$2')   // sort index files by extension
-          .replace(baseDirRe, baseDirMark + '$1'); // directories First/Last
+    name = name.replace(indexFileRe, '$1\u0000$2'); // force first and sort by extension
 
-    return out;
+    var parts = name.split('/');
+    var last = parts.length - 1; 
+
+    name = u.map(parts, function(s, idx) { 
+      return (idx === last ? filePrefix : dirPrefix) + s;
+    }).join('\u0000'); // force delimiters to sort before anything
+
+    return name;
   }
 
   return sortEntry;

@@ -7,6 +7,8 @@
 var test = require('tape');
 
 var FsBase = require('../fs-base');
+var SortEntry = require('../sort-entry');
+
 var u = require('pub-util');
 
 test('list-files with no opts', function(t){
@@ -36,6 +38,7 @@ test('read directory tree including empty directory and maxdepth', function(t){
     '/f1/7.txt',
     '/f2/8.txt'
   ];
+  t.same(u.sortBy(expected, SortEntry(opts)), expected, 'validate expected order');
 
   fsbase.listfiles(function(err, actual){
     t.same(filepathlist(actual), expected);
@@ -73,8 +76,11 @@ test('sorted list, default options', function(t){
     '/sortmetoo/22 .md',
     '/sortmetoo/22.md',
     '/ü12/file.md',
-    '/zappa/alpha/booger.md'
+    '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt'
   ];
+  t.same(u.sortBy(expected, SortEntry(opts)), expected, 'validate expected order');
 
   fsbase.listfiles(function(err, actual){
     t.same(filepathlist(actual), expected);
@@ -99,6 +105,8 @@ test('sorted list, dirsFirst option', function(t){
     '/sortmetoo/22.md',
     '/ü12/file.md',
     '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt',
     '/index.md',
     '/A.md',
     '/Aa.md',
@@ -149,7 +157,9 @@ test('sorted list, sortCase option', function(t){
     '/sortmetoo/22 .md',
     '/sortmetoo/22.md',
     '/ü12/file.md',
-    '/zappa/alpha/booger.md'
+    '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt'
   ];
 
   fsbase.listfiles(function(err, actual){
@@ -187,6 +197,8 @@ test('sorted list, sortAccents option', function(t){
     '/sortmetoo/22 .md',
     '/sortmetoo/22.md',
     '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt',
     '/ü12/file.md'
   ];
 
@@ -225,7 +237,9 @@ test('sorted list, blank indexFile option', function(t){
     '/sortmetoo/22 .md',
     '/sortmetoo/22.md',
     '/ü12/file.md',
-    '/zappa/alpha/booger.md'
+    '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt'
   ];
 
   fsbase.listfiles(function(err, actual){
