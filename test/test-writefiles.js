@@ -8,7 +8,7 @@
 
 var test = require('tape');
 
-var rmdir = require('rmdir');
+var rmdir = require('rimraf');
 var fsbase = require('../fs-base');
 
 
