@@ -12,7 +12,7 @@
 
 var fs = require('graceful-fs');
 var u = require('pub-util');
-var path = require('path');
+var path = require('path').posix;
 var asyncbuilder = require('asyncbuilder');
 var Queue = require('queue4');
 var mkdirp = require('mkdirp');
