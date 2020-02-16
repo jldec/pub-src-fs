@@ -10,7 +10,7 @@
  * opts.dirsFirst - default false (files first)
  * opts.indexFile - default '.../index.xxx' sorts before other files
  *
- * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
  */
 
 /*eslint indent: ["off"]*/
@@ -44,9 +44,9 @@ module.exports = function(opts) {
     name = name.replace(indexFileRe, '$1\u0000$2'); // force first and sort by extension
 
     var parts = name.split('/');
-    var last = parts.length - 1; 
+    var last = parts.length - 1;
 
-    name = u.map(parts, function(s, idx) { 
+    name = u.map(parts, function(s, idx) {
       return (idx === last ? filePrefix : dirPrefix) + s;
     }).join('\u0000'); // force delimiters to sort before anything
 

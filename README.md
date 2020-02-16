@@ -1,6 +1,5 @@
 # pub-src-fs
-[![Azure Build Status](https://dev.azure.com/jldec/pub-src-fs/_apis/build/status/jldec.pub-src-fs?branchName=master)](https://dev.azure.com/jldec/pub-src-fs/_build/latest?definitionId=1&branchName=master)
-[![Build Status](https://api.travis-ci.org/jldec/pub-src-fs.svg?branch=master)](https://travis-ci.org/jldec/pub-src-fs)
+![CI](https://github.com/jldec/pub-src-fs/workflows/CI/badge.svg)
 
 Default file system source for pub-server and pub-generator
 

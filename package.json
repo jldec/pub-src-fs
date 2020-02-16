@@ -1,23 +1,23 @@
 {
   "name": "pub-src-fs",
-  "version": "2.0.8",
+  "version": "2.0.9",
   "description": "Default file system source for pub-server and pub-generator",
   "main": "pub-src-fs.js",
   "dependencies": {
-    "asyncbuilder": "^1.0.6",
+    "asyncbuilder": "^1.0.7",
     "binary-extensions": "^2.0.0",
     "debug": "^4.1.1",
-    "graceful-fs": "^4.2.0",
+    "graceful-fs": "^4.2.3",
     "minimatch": "^3.0.4",
-    "mkdirp": "^0.5.1",
-    "pub-util": "^3.0.8",
-    "queue4": "^1.0.4",
+    "mkdirp": "^1.0.3",
+    "pub-util": "^3.0.9",
+    "queue4": "^1.0.6",
     "unorm": "^1.6.0"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
-    "rimraf": "^2.6.3",
-    "tape": "^4.11.0"
+    "eslint": "^6.8.0",
+    "rimraf": "^3.0.2",
+    "tape": "^4.13.0"
   },
   "files": [
     "pub-src-fs.js",
@@ -25,13 +25,12 @@
     "sort-entry.js"
   ],
   "scripts": {
-    "test": "tape test/*.js",
-    "lint": "eslint ."
+    "test": "eslint . && tape test/*.js"
   },
   "repository": {
     "type": "git",
     "url": "git://github.com/jldec/pub-src-fs.git"
   },
-  "author": "jurgen leschner",
+  "author": "Jürgen Leschner",
   "license": "MIT"
 }

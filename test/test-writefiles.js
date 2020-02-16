@@ -1,6 +1,6 @@
 /**
  * pub-src-fs test-writefiles
- * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
  *
 **/
 

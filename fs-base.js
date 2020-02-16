@@ -7,8 +7,9 @@
  * files with binary-extensions are automatically excluded by listfiles()
  * used by pub-src-fs, pub-src-github, and pub-server/serve-static
  *
- * copyright 2015-2019, Jurgen Leschner - github.com/jldec - MIT license
+ * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
 **/
+var debug = require('debug')('pub:src-fs');
 
 var fs = require('graceful-fs');
 var u = require('pub-util');
@@ -173,6 +174,10 @@ module.exports = function fsbase(sourceOpts) {
 
     var tmppath = u.join(self.tmp, filepath);
     var tmpdir = path.dirname(tmppath);
+
+    debug('self.tmp: ', self.tmp);
+    debug('filepath: ', filepath);
+    debug('tmpdir: ', tmpdir);
 
     mkdirp(tmpdir, function(err) {
       if (err) return cb(err);
