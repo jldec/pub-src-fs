@@ -11,12 +11,11 @@
 **/
 var debug = require('debug')('pub:src-fs');
 
-var fs = require('graceful-fs');
+var fs = require('fs');
 var u = require('pub-util');
 var path = require('path');
 var asyncbuilder = require('asyncbuilder');
 var Queue = require('queue4');
-var mkdirp = require('mkdirp');
 var normalize = require('unorm').nfc;
 
 var reBinary = new RegExp('\\.(' + require('binary-extensions').join('|') + ')$','i');
@@ -63,7 +62,7 @@ module.exports = function fsbase(sourceOpts) {
   self.readdir     = self.readdir     || fsReaddir;   // recursive directory walk with minimatch - only files
 
   self.readfile    = self.readfile    || fs.readFile; // single file read
-  self.writefile   = self.writefile   || writeFileAtomic; // single file write with built-in mkdirp and tmp/rename
+  self.writefile   = self.writefile   || writeFileAtomic; // single file write with tmp/rename
 
   self.readfiles   = self.readfiles   || readfiles;   // recursive read (buffered) returns array of {path: text:}
   self.writefiles  = self.writefiles  || writefiles;  // multi-file write
@@ -179,10 +178,10 @@ module.exports = function fsbase(sourceOpts) {
     debug('filepath: ', filepath);
     debug('tmpdir: ', tmpdir);
 
-    mkdirp(tmpdir, function(err) {
+    fs.mkdir(tmpdir, { recursive: true }, function(err) {
       if (err) return cb(err);
 
-      mkdirp(dir, function(err) {
+      fs.mkdir(dir, { recursive: true }, function(err) {
         if (err) return cb(err);
 
         fs.writeFile(tmppath, data, function(err) {
