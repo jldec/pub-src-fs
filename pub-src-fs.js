@@ -5,8 +5,7 @@
  * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
 **/
 
-var debug = require('debug')('pub:src-fs');
-
+var debug = require('util').debuglog('pub:src-fs');
 
 module.exports = function sourceFs(sourceOpts) {
 

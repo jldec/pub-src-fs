@@ -6,7 +6,6 @@
   "dependencies": {
     "asyncbuilder": "^1.0.7",
     "binary-extensions": "^2.0.0",
-    "debug": "^4.1.1",
     "minimatch": "^3.0.4",
     "pub-util": "^3.0.9",
     "queue4": "^1.0.6",
