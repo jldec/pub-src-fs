@@ -33,8 +33,8 @@ module.exports = function(opts) {
       '(\\.[^\\.\\/]*$|$)');
 
   // names without paths: type is passed in, add prefix to sort dirsFirst/Last
-  var filePrefix = opts.dirsFirst ? '2' : '1';
-  var dirPrefix  = opts.dirsFirst ? '1' : '2';
+  var filePrefix = opts.dirsSame ? 1 : ( opts.dirsFirst ? '2' : '1' );
+  var dirPrefix  = opts.dirsSame ? 1 : ( opts.dirsFirst ? '1' : '2' );
 
   function sortEntry(name) {
 

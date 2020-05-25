@@ -47,6 +47,9 @@ source.get(function(err, files) {
 ### source.dirsFirst
 - if `dirsFirst` is true, entries within each directory will be returned with directories before files instead of the default (files first)
 
+### source.dirsSame
+- if `dirsSame` is true, directories and files sort together (overrides dirsFirst)
+
 ### source.get(cb)
 - `get()` fetches all matching files in one async operation
 - the result is an array of file objects each with a `path:` and a `text:` property (for non-binary files), or a `buffer:` property (for binary files)

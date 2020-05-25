@@ -126,6 +126,44 @@ test('sorted list, dirsFirst option', function(t){
   });
 });
 
+test('sorted list, dirsSame option', function(t){
+
+  var opts = { path:__dirname + '/sortme', depth:5, dirsFirst:1, dirsSame:1 };
+  var fsbase = FsBase(opts);
+
+  var expected = [
+    '/index.md',
+    '/A(A/index.x',
+    '/A(A/(index)',
+    '/A(A/Aindex',
+    '/A(A/index/x.md',
+    '/A.md',
+    '/Aa.md',
+    '/b5.md',
+    '/Ba.md',
+    '/sortmetoo/ 2.md',
+    '/sortmetoo/22 .md',
+    '/sortmetoo/22.md',
+    '/U.md',
+    '/ú.md',
+    '/Ú1.md',
+    '/ü12/file.md',
+    '/ü12.md',
+    '/Ü3.md',
+    '/Vz.md',
+    '/Z.md',
+    '/zappa/alpha/booger.md',
+    '/zappa-2/alpha/booger-1.txt',
+    '/zappa-2/alpha/booger-2.txt',
+    '/ø.md'
+  ];
+
+
+  fsbase.listfiles(function(err, actual){
+    t.same(filepathlist(actual), expected);
+    t.end(err);
+  });
+});
 
 test('sorted list, sortCase option', function(t){
 

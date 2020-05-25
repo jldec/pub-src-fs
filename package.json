@@ -1,6 +1,6 @@
 {
   "name": "pub-src-fs",
-  "version": "2.0.10",
+  "version": "2.1.0",
   "description": "Default file system source for pub-server and pub-generator",
   "main": "pub-src-fs.js",
   "dependencies": {
@@ -13,9 +13,9 @@
     "unorm": "^1.6.0"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
+    "eslint": "^7.1.0",
     "rimraf": "^3.0.2",
-    "tape": "^5.0.0"
+    "tape": "^5.0.1"
   },
   "files": [
     "pub-src-fs.js",
