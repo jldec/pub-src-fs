@@ -1,5 +1,5 @@
 # pub-src-fs
-![CI](https://github.com/jldec/pub-src-fs/workflows/CI/badge.svg)
+[![CI](https://github.com/jldec/pub-src-fs/workflows/CI/badge.svg)](https://github.com/jldec/pub-src-fs/actions)
 
 Default file system source for pub-server and pub-generator
 

@@ -1,19 +1,19 @@
 {
   "name": "pub-src-fs",
-  "version": "2.1.0",
+  "version": "2.1.1",
   "description": "Default file system source for pub-server and pub-generator",
   "main": "pub-src-fs.js",
   "dependencies": {
-    "asyncbuilder": "^1.0.8",
-    "binary-extensions": "^2.0.0",
+    "asyncbuilder": "^1.0.9",
+    "binary-extensions": "^2.1.0",
     "debug": "^4.1.1",
     "minimatch": "^3.0.4",
-    "pub-util": "^3.1.0",
-    "queue4": "^1.0.7",
+    "pub-util": "^3.1.1",
+    "queue4": "^1.0.8",
     "unorm": "^1.6.0"
   },
   "devDependencies": {
-    "eslint": "^7.1.0",
+    "eslint": "^7.5.0",
     "rimraf": "^3.0.2",
     "tape": "^5.0.1"
   },
