@@ -10,7 +10,7 @@
  * opts.dirsFirst - default false (files first)
  * opts.indexFile - default '.../index.xxx' sorts before other files
  *
- * copyright 2015-2020, Jürgen Leschner - github.com/jldec - MIT license
+ * Copyright (c) 2015-2022 Jürgen Leschner - github.com/jldec - MIT license
  */
 
 /*eslint indent: ["off"]*/
